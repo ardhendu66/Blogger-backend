@@ -5,7 +5,7 @@ export const getSingleBlog = async (req, res) => {
         const blog = await BlogModel.findById(req.query.id).populate({
             path: 'author', 
             select: [
-                '_id', 'name', 'email', 'image', 'emailVerified', 'role', 'createdAt', 'updatedAt'
+                '_id', 'name', 'email', 'image', 'emailVerified', 'role', 'verifyToken', 'forgotPasswordToken', 'verifyTokenExpiry', 'forgotPasswordTokenExpiry', 'createdAt', 'updatedAt'
             ]
         });
 
@@ -58,7 +58,12 @@ export const getBlogsOfAdmin = async (req, res) => {
     try {
         if(req.query.authorId) {
             console.log(req.query.authorId);
-            const blogs = await BlogModel.find({ author: req.query.authorId }).populate('author');
+            const blogs = await BlogModel.find({ author: req.query.authorId }).populate({
+                path: 'author', 
+                select: [
+                    '_id', 'name', 'email', 'image', 'emailVerified', 'role', 'verifyToken', 'forgotPasswordToken', 'verifyTokenExpiry', 'forgotPasswordTokenExpiry', 'createdAt', 'updatedAt'
+                ]
+            });
             if(blogs) {
                 return res.status(200).json(blogs);
             }
