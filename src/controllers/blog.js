@@ -2,7 +2,12 @@ import BlogModel from "../models/blogModel.js";
 
 export const getSingleBlog = async (req, res) => {
     try {
-        const blog = await BlogModel.findById(req.query.id).populate('author');
+        const blog = await BlogModel.findById(req.query.id).populate({
+            path: 'author', 
+            select: [
+                '_id', 'name', 'email', 'image', 'emailVerified', 'role', 'createdAt', 'updatedAt'
+            ]
+        });
 
         return (
             blog ? res.status(200).json(blog) :
@@ -16,7 +21,12 @@ export const getSingleBlog = async (req, res) => {
 
 export const getAllBlogs = async (req, res) => {
     try {
-        const blogs = await BlogModel.find().populate('author');
+        const blogs = await BlogModel.find().populate({
+            path: 'author', 
+            select: [
+                '_id', 'name', 'email', 'image', 'emailVerified', 'role', 'verifyToken', 'forgotPasswordToken', 'verifyTokenExpiry', 'forgotPasswordTokenExpiry', 'createdAt', 'updatedAt'
+            ]
+        });
 
         return (
             blogs ? res.status(200).json(blogs) :
