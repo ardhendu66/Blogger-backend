@@ -61,8 +61,11 @@ export const loginUser = async (req, res) => {
             .cookie("access_token", token, {
                 httpOnly: true,
                 secure: true,
+                sameSite: 'none',
+                domain: "vercel.app",
+                path: '/'
             })
-            .status(201).json({message: "Logged in successfully", user: payload});
+            .status(201).json({message: "Logged in successfully", user: payload, token});
         }
 
         return res.status(200).json({message: "Authentication failed"});

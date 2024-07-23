@@ -13,7 +13,10 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: "https://blogger-my-app.vercel.app",
+    credentials: true,
+}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
@@ -25,7 +28,7 @@ app.get("/", (req, res) => {
 app.use("/api/blog", blogRoute);
 app.use("/api/admin/blogs", adminBlogRoute);
 app.use("/api/admin/upload", uploadRoute);
-app.use("/api/admin/profile", adminProfileRoute);
+app.use("/api/admin", adminProfileRoute);
 app.use("/api/auth", authRoute);
 
 app.use("/upload", express.static("upload"));
