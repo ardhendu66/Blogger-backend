@@ -13,10 +13,16 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors({
-    origin: "https://blogger-my-app.vercel.app",
-    credentials: true,
-}));
+// app.use(cors({
+//     // origin: "https://blogger-my-app.vercel.app",
+//     origin: "*",
+//     credentials: true,
+// }));
+app.use(cors());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
